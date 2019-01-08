@@ -3,6 +3,7 @@ package academy.learnprogramming.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
@@ -25,10 +26,12 @@ public class WellAppinitializer implements WebApplicationInitializer {
         context.register(WebConfig.class);
 
         // create the dispatcher servlet
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
+        DispatcherServlet dispatcherServlet =
+                new DispatcherServlet((WebApplicationContext) context);
 
         // register and configure the dispatcher servlet
-        ServletRegistration.Dynamic registration = servletContext.addServlet(DISPATCHER_SERVLET_NAME, dispatcherServlet);
+        ServletRegistration.Dynamic registration =
+                servletContext.addServlet(DISPATCHER_SERVLET_NAME, dispatcherServlet);
 
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
